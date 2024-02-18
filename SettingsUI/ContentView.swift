@@ -44,7 +44,7 @@ struct ContentView: View {
                                     .font(.title2)
                                 Text("Apple ID, iCloud, Media & Purchases")
                                     .font(.footnote)
-                                    
+                                
                             }
                         }
                     }
@@ -57,12 +57,12 @@ struct ContentView: View {
                     // AirPlane mode finished
                     HStack(spacing: 12){
                         Icon(imageName: "airplane", backgroundColour: Color.orange)
-                            
+                        
                         Toggle("Airplane Mode",  isOn: $isAirplaneMode)
                     }
                     HStack(spacing: 10){
                         Icon(imageName: "wifi", backgroundColour: .blue)
-                            
+                        
                         NavigationLink("Wi-Fi", destination: WiFiView())
                     }
                     
@@ -74,7 +74,7 @@ struct ContentView: View {
                             
                             Text("Off").tag("Off")
                             Text("On").tag("On")
-                                
+                            
                             Toggle("Bluetooth", isOn: $isBluetoothOn)
                                 .onChange(of: isBluetoothOn, changeBluetooth)
                         }
@@ -82,30 +82,24 @@ struct ContentView: View {
                     }
                     
                     // mobile service to finish
-                    HStack(spacing: 12){
-                        Icon(imageName: "antenna.radiowaves.left.and.right", backgroundColour: .green)
-                            
-                        NavigationLink("Mobile Service") {
-                            // make view (struct)
-                            VStack{
-                                Toggle("Mobile Data",  isOn: $isAirplaneMode)
-                            }
-                        }
-                    }
+                    Item(isSomethingOn: isBluetoothOn, name: "Mobile Service", icon: Icon(imageName: "antenna.radiowaves.left.and.right", backgroundColour: .green))
                     
-                    // personal hotspot service to finish
-                    HStack(spacing: 12){
-                        Icon(imageName: "personalhotspot", backgroundColour: .green)
-                            
-                        NavigationLink("Personal Hotspot") {
-                            // make view (struct)
-                            VStack{
-                                Toggle("Mobile Data",  isOn: $isAirplaneMode)
-                            }
-                        }
-                    }
+                    
+                    
+                    Item(isSomethingOn: isBluetoothOn, name: "Personal Hotspot", icon: Icon(imageName: "personalhotspot", backgroundColour: .green))
                 }
-
+                
+                Section {
+                    
+                    Item(isSomethingOn: isBluetoothOn, name: "Notifications", icon: Icon(imageName: "bell.badge.fill", backgroundColour: .red))
+                    
+                    Item(isSomethingOn: isBluetoothOn, name: "Sounds & Haptics", icon: .init(imageName: "speaker.wave.3.fill", backgroundColour: .pink))
+                    
+                    Item(isSomethingOn: isBluetoothOn, name: "Focus", icon: .init(imageName: "moon.fill", backgroundColour: .indigo))
+                    
+                    Item(isSomethingOn: isBluetoothOn, name: "Screen Time", icon: .init(imageName: "hourglass", backgroundColour: .indigo))
+                    
+                }
                 Section("Section 2") {
                     ForEach(1..<5){
                         NavigationLink("Row number \($0)", destination: WiFiView())
@@ -140,6 +134,21 @@ struct ContentView: View {
                 .foregroundStyle(.white)
                 .background(backgroundColour)
                 .clipShape(.buttonBorder)
+        }
+    }
+    struct Item: View {
+        var isSomethingOn: Bool
+        var name: String
+        var icon: Icon
+        
+        var body: some View {
+            HStack(spacing: 12){
+                Icon(imageName: icon.imageName, backgroundColour: icon.backgroundColour)
+                
+                NavigationLink(name) {
+                    EmptyView()
+                }
+            }
         }
     }
 }
